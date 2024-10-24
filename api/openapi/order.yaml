@@ -1,5 +1,5 @@
 # 生成 types 和 gin：oapi-codegen -generate "types" -o order_types.gen.go -package order order.yaml 放在 order/port 和 common/client/order 裡面
-# 生成 gin：oapi-codegen -generate "gin" -o order_api.gen.go -package order order.yaml 放在order/port 裡面
+# 生成 gin：oapi-codegen -generate "gin" -o order_api.gen.go -package ports order.yaml 放在order/port 裡面
 # 生成 client：oapi-codegen -generate "client" -o order_client.gen.go -package order order.yaml 這個生成出來的東西要放在 common/client/order 裡面
 openapi: "3.0.3"
 info:

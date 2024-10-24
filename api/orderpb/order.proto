@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package orderpb;
 
-option go_package = "./";
+option go_package = "./orderpb";
 
 import "google/protobuf/empty.proto";
 

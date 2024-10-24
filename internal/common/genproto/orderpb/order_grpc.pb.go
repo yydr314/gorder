@@ -6,7 +6,7 @@
 // - protoc             v5.28.2
 // source: order.proto
 
-package __
+package orderpb
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
 // Requires gRPC-Go v1.64.0 or later.
-const _ = grpc.SupportPackageIsVersion9
+const _ = grpc.SupportPackageIsVersion8
 
 const (
 	OrderService_CreateOrder_FullMethodName = "/orderpb.OrderService/CreateOrder"
@@ -81,7 +81,6 @@ type OrderServiceServer interface {
 	CreateOrder(context.Context, *CreateOrderRequest) (*emptypb.Empty, error)
 	GetOrder(context.Context, *GetOrderRequest) (*Order, error)
 	UpdateOrder(context.Context, *Order) (*emptypb.Empty, error)
-	mustEmbedUnimplementedOrderServiceServer()
 }
 
 // UnimplementedOrderServiceServer must be embedded to have
