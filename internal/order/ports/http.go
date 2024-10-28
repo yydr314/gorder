@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lingjun0314/goder/common/genproto/orderpb"
 	"github.com/lingjun0314/goder/order/app"
+	"github.com/lingjun0314/goder/order/app/command"
 	"github.com/lingjun0314/goder/order/app/query"
 )
 
@@ -19,7 +21,24 @@ func NewHTTPServer(app *app.Application) *HTTPServer {
 }
 
 func (H HTTPServer) PostCustomerCostumerIDOrders(c *gin.Context, costumerID string) {
-
+	var req orderpb.CreateOrderRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	r, err := H.app.Commands.CreateOrder.Handle(c, command.CreateOrder{
+		CustomerID: req.CustomerID,
+		Items:      req.Items,
+	})
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message":    "success",
+		"customer_id": req.CustomerID,
+		"order_id":    r.OrderID,
+	})
 }
 
 func (H HTTPServer) GetCustomerCostumerIDOrdersOrderID(c *gin.Context, costumerID string, orderID string) {
