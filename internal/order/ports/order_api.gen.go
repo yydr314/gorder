@@ -40,7 +40,7 @@ func (siw *ServerInterfaceWrapper) PostCustomerCostumerIDOrders(c *gin.Context) 
 
 	err = runtime.BindStyledParameterWithOptions("simple", "costumerID", c.Param("costumerID"), &costumerID, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter costumerID: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("invalid format for parameter costumerID: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -64,7 +64,7 @@ func (siw *ServerInterfaceWrapper) GetCustomerCostumerIDOrdersOrderID(c *gin.Con
 
 	err = runtime.BindStyledParameterWithOptions("simple", "costumerID", c.Param("costumerID"), &costumerID, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter costumerID: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("invalid format for parameter costumerID: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -73,7 +73,7 @@ func (siw *ServerInterfaceWrapper) GetCustomerCostumerIDOrdersOrderID(c *gin.Con
 
 	err = runtime.BindStyledParameterWithOptions("simple", "orderID", c.Param("orderID"), &orderID, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter orderID: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("invalid format for parameter orderID: %w", err), http.StatusBadRequest)
 		return
 	}
 

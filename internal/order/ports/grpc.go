@@ -19,11 +19,11 @@ func NewGRPCServer(app *app.Application) *GRPCServer {
 }
 
 func (G GRPCServer) CreateOrder(context.Context, *orderpb.CreateOrderRequest) (*emptypb.Empty, error) {
-	return nil,nil
+	return nil, nil
 }
 func (G GRPCServer) GetOrder(context.Context, *orderpb.GetOrderRequest) (*orderpb.Order, error) {
-	return nil,nil
+	return nil, nil
 }
 func (G GRPCServer) UpdateOrder(context.Context, *orderpb.Order) (*emptypb.Empty, error) {
-	return nil,nil
+	return nil, nil
 }
