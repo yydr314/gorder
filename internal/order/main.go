@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/lingjun0314/goder/common/discovery"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -29,6 +30,15 @@ func main() {
 
 	application, cleanup := service.NewApplication(ctx)
 	defer cleanup()
+
+	//	註冊到 consul
+	deregisterFunc, err := discovery.RegisterToConsul(ctx, serviceName)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	defer func() {
+		_ = deregisterFunc()
+	}()
 
 	go server.RunGRPCServer(serviceName, func(server *grpc.Server) {
 		service := ports.NewGRPCServer(application)

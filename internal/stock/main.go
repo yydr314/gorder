@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/lingjun0314/goder/common/discovery"
 
 	"github.com/lingjun0314/goder/common/config"
 	"github.com/lingjun0314/goder/common/genproto/stockpb"
@@ -28,6 +29,16 @@ func main() {
 	defer cancel()
 
 	application := service.NewApplication(ctx)
+
+	//	註冊到 consul
+	deregisterFunc, err := discovery.RegisterToConsul(ctx, serviceName)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	defer func() {
+		_ = deregisterFunc()
+	}()
+
 	switch serverType {
 	case "grpc":
 		//	實現方法的服務
