@@ -45,6 +45,7 @@ func NewCreateOrderHandler(
 
 func (c createOrderHandler) Handle(ctx context.Context, cmd CreateOrder) (*CreateOrderResult, error) {
 	validateItems, err := c.validate(ctx, cmd.Items)
+
 	if err != nil {
 		return nil, errors.New("")
 	}
@@ -58,6 +59,7 @@ func (c createOrderHandler) Handle(ctx context.Context, cmd CreateOrder) (*Creat
 	return &CreateOrderResult{OrderID: o.ID}, nil
 }
 
+// 確認是否有庫存
 func (c createOrderHandler) validate(ctx context.Context, items []*orderpb.ItemWithQuantity) ([]*orderpb.Item, error) {
 	if len(items) == 0 {
 		return nil, errors.New("must have at least one item")
