@@ -10,6 +10,7 @@ import (
 	"github.com/lingjun0314/goder/payment/domain"
 	"github.com/lingjun0314/goder/payment/infrastructure/processor"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 )
 
 // NewApplication 膠水層，把所有要用的邏輯都進行依賴注入
@@ -20,8 +21,9 @@ func NewApplication(ctx context.Context) (app.Application, func()) {
 	}
 
 	orderGRPC := adapters.NewOrderGRPC(orderClient)
-	memoryProcessor := processor.NewInmemProcessor()
-	return newApplication(ctx, orderGRPC, memoryProcessor), func() {
+	//memoryProcessor := processor.NewInmemProcessor()
+	stripeProcessor := processor.NewStripeProcessor(viper.GetString("stripe-key"))
+	return newApplication(ctx, orderGRPC, stripeProcessor), func() {
 		_ = closeOrderClient()
 	}
 
