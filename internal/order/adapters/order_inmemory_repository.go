@@ -61,7 +61,7 @@ func (m *MemoryOrderRepository) Update(ctx context.Context, order *domain.Order,
 	for i, o := range m.store {
 		if o.ID == order.ID && o.CustomerID == order.CustomerID {
 			found = true
-			updateOrder, err := updateFn(ctx, o)
+			updateOrder, err := updateFn(ctx, o) //	找到資料，透過外部（updateFn）更新，然後這裡做存儲
 			if err != nil {
 				return err
 			}

@@ -9,8 +9,8 @@ import (
 )
 
 type UpdateOrder struct {
-	order    *domain.Order
-	updateFn func(context.Context, *domain.Order) (*domain.Order, error)
+	Order    *domain.Order
+	UpdateFn func(context.Context, *domain.Order) (*domain.Order, error)
 }
 
 type UpdateOrderResult struct {
@@ -40,13 +40,13 @@ func NewUpdateOrderHandler(
 }
 
 func (u updateOrderHandler) Handle(ctx context.Context, cmd UpdateOrder) (interface{}, error) {
-	if cmd.updateFn == nil {
-		logrus.Warnf("updateOrderHandler got nil UPdateFn,order=%v", cmd.order)
-		cmd.updateFn = func(_ context.Context, order *domain.Order) (*domain.Order, error) {
+	if cmd.UpdateFn == nil {
+		logrus.Warnf("updateOrderHandler got nil UpdateFn,order=%v", cmd.Order)
+		cmd.UpdateFn = func(_ context.Context, order *domain.Order) (*domain.Order, error) {
 			return order, nil
 		}
 	}
-	err := u.orderRepo.Update(ctx, cmd.order, cmd.updateFn)
+	err := u.orderRepo.Update(ctx, cmd.Order, cmd.UpdateFn)
 	if err != nil {
 		return nil, err
 	}
