@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/lingjun0314/goder/common/broker"
 	"github.com/lingjun0314/goder/common/config"
 	"github.com/lingjun0314/goder/common/server"
 	"github.com/sirupsen/logrus"
@@ -17,6 +18,17 @@ func init() {
 // Fatal 會直接跳出，不執行接下來的所有步驟
 func main() {
 	serverType := viper.GetString("payment.server-to-run")
+
+	ch, closeCh := broker.Connect(
+		viper.GetString("rabbitmq.user"),
+		viper.GetString("rabbitmq.password"),
+		viper.GetString("rabbitmq.host"),
+		viper.GetString("rabbitmq.port"),
+	)
+	defer func() {
+		_ = ch.Close()
+		_ = closeCh()
+	}()
 
 	paymentHandler := NewPaymentHandler()
 	switch serverType {

@@ -17,6 +17,12 @@ payment:
   http-addr: "127.0.0.1:8284"
   grpc-addr: "127.0.0.1:5004"
 
+rabbitmq:
+  user: "guest"
+  password: "guest"
+  host: "localhost"
+  port: 5672
+
 consul:
   addr: "localhost:8500"
 
