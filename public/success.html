@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gorder</title>
+</head>
+<body>
+    <section>
+        <p>
+            您成功下單！
+        </p>
+        <p>
+            訂單狀態：<span id="orderStatus">等待中...</span>
+        </p>
+        <div class="ready-popup">
+            <p>您的訂單正在處理中...</p>
+            <p style="color: burlywood;margin: 12px">
+                訂單號：<b><span id="orderID"></span></b>
+            </p>
+            <button class="close-btn" onclick="document.querySelector('.ready-popup').style.display = 'none'">
+                關閉
+            </button>
+        </div>
+
+        <div class="after-payment-popup">
+            <p>等待支付中</p>
+            <a id="payment-link" href="#">去支付</a>
+        </div>
+    </section>
+</body>
+
+<style>
+    html {
+        margin: 0;
+        padding: 0;
+        background-color: antiquewhite;
+        color: darkblue;
+    }
+
+    section {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .ready-popup {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 20px;
+        background-color: cadetblue;
+        z-index: 1;
+        border: 2px solid black;
+        border-radius: 5px;
+    }
+
+    .ready-popup p {
+        margin: 0;
+
+    }
+
+    .after-payment-popup {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 20px;
+        background-color: cadetblue;
+        z-index: 1;
+        border: 2px solid black;
+        border-radius: 5px;
+    }
+
+    .after-payment-popup a {
+        color: white;
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: green;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .after-payment-popup p {
+        margin: 0;
+    }
+
+    .close-btn {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: green;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+
+</script>
+</html>
