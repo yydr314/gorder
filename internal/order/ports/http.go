@@ -1,6 +1,7 @@
 package ports
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,9 +36,10 @@ func (H HTTPServer) PostCustomerCostumerIDOrders(c *gin.Context, costumerID stri
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message":    "success",
-		"customer_id": req.CustomerID,
-		"order_id":    r.OrderID,
+		"message":      "success",
+		"customer_id":  req.CustomerID,
+		"order_id":     r.OrderID,
+		"redirect_url": fmt.Sprintf("http://localhost:8282/success?customerID=%s&orderID=%s", req.CustomerID, r.OrderID),
 	})
 }
 
@@ -53,6 +55,8 @@ func (H HTTPServer) GetCustomerCostumerIDOrdersOrderID(c *gin.Context, costumerI
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
-		"data":    o,
+		"data": gin.H{
+			"Order": o,
+		},
 	})
 }
