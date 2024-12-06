@@ -106,6 +106,39 @@
 </style>
 
 <script>
+    const urlParam = new URLSearchParams(window.location.search)
+    const customerID = urlParam.get('customerID')
+    const orderID = urlParam.get('orderID')
+    const order = {
+        customerID,
+        orderID,
+        status: 'pending'
+    }
+    const getOrder = async() => {
+        const res = await fetch(`/api/customer/${customerID}/orders/${orderID}`)
+        const data = await res.json()
+        console.log("data = ", data)
 
+        if (data.data.Order.Status === 'waiting_for_payment') {
+            order.status = '等待支付...'
+            document.getElementById('orderStatus').innerText = order.status
+            document.querySelector('.after-payment-popup').style.display = 'block'
+            document.getElementById('payment-link').href = data.data.Order.PaymentLink
+        }
+        if (data.data.Order.Status === 'paid') {
+            order.status = '已支付成功，請等待...'
+            document.getElementById('orderStatus').innerText = order.status
+            setTimeout(getOrder ,5000)
+        } else if (data.data.Order.Status === 'ready') {
+            order.status = '已完成'
+            document.querySelector('.after-payment-popup').style.display = 'none'
+            document.getElementById('orderID').innerText = orderID
+            document.getElementById('orderStatus').innerText = order.status
+            document.querySelector('.ready-popup').style.display = 'block'
+        } else {
+            setTimeout(getOrder, 5000)
+        }
+    }
+    getOrder()
 </script>
 </html>
