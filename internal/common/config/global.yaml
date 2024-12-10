@@ -27,3 +27,4 @@ consul:
   addr: "localhost:8500"
 
 stripe-key: "${STRIPE_KEY}"
+endpoint-stripe-secret: "${ENDPOINT_STRIPE_SECRET}"

@@ -47,7 +47,7 @@ func (c *Consumer) handleMessage(msg amqp091.Delivery, q amqp091.Queue, ch *amqp
 	o := &orderpb.Order{}
 	if err := json.Unmarshal(msg.Body, o); err != nil {
 		logrus.Infof("failed to unmarshal msg to order, err=%v", err)
-		_ = msg.Nack(false, false)
+		_ = msg.Nack(false, false) // Nack 代表發送 ack 消息但帶有錯誤
 		return
 	}
 	if _, err := c.app.Commands.CreatePayment.Handle(context.TODO(), command.CreatePayment{Order: o}); err != nil {
