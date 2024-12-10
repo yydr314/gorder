@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lingjun0314/goder/common/broker"
 	"github.com/lingjun0314/goder/common/genproto/orderpb"
@@ -15,7 +14,6 @@ import (
 	"github.com/stripe/stripe-go/v80/webhook"
 	"io"
 	"net/http"
-	"os"
 )
 
 type PaymentHandler struct {
@@ -92,6 +90,7 @@ func (h *PaymentHandler) HandleWebhook(c *gin.Context) {
 			})
 			logrus.Infof("message published to %s, body: %s", broker.EventOrderPaid, string(marshalledOrder))
 		}
+	}
 
 	c.JSON(http.StatusOK,nil)
 }
