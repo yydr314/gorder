@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"github.com/lingjun0314/goder/common/broker"
 	"github.com/lingjun0314/goder/common/discovery"
 	"github.com/lingjun0314/goder/common/logging"
+	"github.com/lingjun0314/goder/order/infrastructure/consumer"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -41,6 +43,19 @@ func main() {
 	defer func() {
 		_ = deregisterFunc()
 	}()
+
+	ch, closeCh := broker.Connect(
+		viper.GetString("rabbitmq.user"),
+		viper.GetString("rabbitmq.password"),
+		viper.GetString("rabbitmq.host"),
+		viper.GetString("rabbitmq.port"),
+	)
+	defer func() {
+		_ = ch.Close()
+		_ = closeCh()
+	}()
+
+	go consumer.NewConsumer(application).Listen(ch)
 
 	go server.RunGRPCServer(serviceName, func(server *grpc.Server) {
 		service := ports.NewGRPCServer(application)

@@ -1,0 +1,97 @@
+---
+run:
+  timeout: 30m
+  tests: false
+issues:
+  max-same-issues: 0
+  exclude-rules:
+    - path: conversion\.go
+      linters: [ineffassign]
+  exclude-files:
+    - ^zz_generated.*
+linters:
+  disable-all: true
+  enable:
+    - goimports
+    - ineffassign
+    - nakedret
+    - revive
+    - staticcheck
+    - stylecheck
+    - unconvert
+    - unparam
+    - unused
+linters-settings:
+  nakedret:
+    max-func-lines: 5
+  revive:
+    ignore-generated-header: false
+    severity: error
+    confidence: 0.8
+    enable-all-rules: false
+    rules:
+      - name: blank-imports
+        severity: error
+        disabled: false
+      - name: context-as-argument
+        severity: error
+        disabled: false
+      - name: dot-imports
+        severity: error
+        disabled: false
+      - name: error-return
+        severity: error
+        disabled: false
+      - name: error-naming
+        severity: error
+        disabled: false
+      - name: if-return
+        severity: error
+        disabled: false
+      - name: increment-decrement
+        severity: error
+        disabled: false
+      - name: var-declaration
+        severity: error
+        disabled: false
+      - name: package-comments
+        severity: error
+        disabled: false
+      - name: range
+        severity: error
+        disabled: false
+      - name: receiver-naming
+        severity: error
+        disabled: false
+      - name: time-naming
+        severity: error
+        disabled: false
+      - name: indent-error-flow
+        severity: error
+        disabled: false
+      - name: errorf
+        severity: error
+        disabled: false
+      - name: context-keys-type
+        severity: error
+        disabled: false
+      - name: error-strings
+        severity: error
+        disabled: false
+      - name: var-naming
+        disabled: false
+        arguments:
+          - []
+          - ["GRPC", "WAL"]
+      - name: exported
+        disabled: true
+      - name: unexported-return
+        disabled: true
+  staticcheck:
+    checks:
+      - all
+      - -SA1019
+      - -SA2002
+  stylecheck:
+    checks:
+      - ST1019

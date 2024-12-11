@@ -19,7 +19,7 @@ func NewStockGRPCClient(ctx context.Context) (client stockpb.StockServiceClient,
 	if grpcAddr == "" {
 		logrus.Warn("empty grpc addr for stock grpc")
 	}
-	opts, err := grpcDialOpts(grpcAddr)
+	opts := grpcDialOpts(grpcAddr)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -38,10 +38,7 @@ func NewOrderGRPCClient(ctx context.Context) (client orderpb.OrderServiceClient,
 	if grpcAddr == "" {
 		logrus.Warn("empty grpc addr for order grpc")
 	}
-	opts, err := grpcDialOpts(grpcAddr)
-	if err != nil {
-		return nil, nil, err
-	}
+	opts := grpcDialOpts(grpcAddr)
 	conn, err := grpc.NewClient(grpcAddr, opts...)
 	if err != nil {
 		return nil, nil, err
@@ -49,8 +46,8 @@ func NewOrderGRPCClient(ctx context.Context) (client orderpb.OrderServiceClient,
 	return orderpb.NewOrderServiceClient(conn), conn.Close, nil
 }
 
-func grpcDialOpts(addr string) ([]grpc.DialOption, error) {
+func grpcDialOpts(_ string) []grpc.DialOption {
 	return []grpc.DialOption{
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	}, nil
+	}
 }
