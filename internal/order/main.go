@@ -5,6 +5,7 @@ import (
 	"github.com/lingjun0314/goder/common/broker"
 	"github.com/lingjun0314/goder/common/discovery"
 	"github.com/lingjun0314/goder/common/logging"
+	"github.com/lingjun0314/goder/common/tracing"
 	"github.com/lingjun0314/goder/order/infrastructure/consumer"
 
 	"github.com/gin-gonic/gin"
@@ -31,6 +32,12 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	shutdown, err := tracing.InitJaegerProvider(viper.GetString("jaeger.url"), serviceName)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	defer shutdown(ctx)
 
 	application, cleanup := service.NewApplication(ctx)
 	defer cleanup()

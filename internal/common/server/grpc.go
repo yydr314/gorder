@@ -1,6 +1,7 @@
 package server
 
 import (
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"net"
 
 	grpc_logrus "github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
@@ -29,6 +30,7 @@ func RunGRPCServerOnAddr(addr string, registerServer func(server *grpc.Server)) 
 	logrusEntry := logrus.NewEntry(logrus.StandardLogger())
 	//	配置 gRPC 服務，這些都是固定寫法
 	grpcServer := grpc.NewServer(
+		grpc.StatsHandler(otelgrpc.NewServerHandler()),
 		grpc.ChainStreamInterceptor(
 			//	這些配置的順序是有序的，不能隨意調換順序
 			grpc_tags.StreamServerInterceptor(grpc_tags.WithFieldExtractor(grpc_tags.CodeGenRequestFieldExtractor)), //	透過生成的結構抓到資料（這裡不是很懂）

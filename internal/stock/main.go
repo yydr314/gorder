@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/lingjun0314/goder/common/discovery"
 	"github.com/lingjun0314/goder/common/logging"
+	"github.com/lingjun0314/goder/common/tracing"
 
 	"github.com/lingjun0314/goder/common/config"
 	"github.com/lingjun0314/goder/common/genproto/stockpb"
@@ -29,6 +30,12 @@ func main() {
 	//	此 context 旨在檢測超時
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	shutdown, err := tracing.InitJaegerProvider(viper.GetString("jaeger.url"), serviceName)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	defer shutdown(ctx)
 
 	application := service.NewApplication(ctx)
 
