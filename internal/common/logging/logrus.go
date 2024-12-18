@@ -8,11 +8,11 @@ import (
 )
 
 func Init() {
-	SetFormatter(logrus.StandardLogger())
+	setFormatter(logrus.StandardLogger())
 	logrus.SetLevel(logrus.DebugLevel)
 }
 
-func SetFormatter(logger *logrus.Logger) {
+func setFormatter(logger *logrus.Logger) {
 	logger.SetFormatter(&logrus.JSONFormatter{
 		FieldMap: logrus.FieldMap{
 			logrus.FieldKeyLevel: "severity",

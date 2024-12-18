@@ -44,7 +44,7 @@ log_info "$(modules)"
 run goimports -w -l .
 
 while read -r module; do
-  run cd ./internal"$module"
+  run cd ./internal/"$module"
   run golangci-lint run --config "$ROOT_DIR/.golangci.yaml"
   run cd -
 done < <(modules)
