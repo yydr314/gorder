@@ -2,6 +2,8 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/lingjun0314/goder/common/middleware"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
@@ -12,10 +14,10 @@ func RunHTTPServer(serviceName string, wrapper func(router *gin.Engine)) {
 	if addr == "" {
 		panic("empty http address")
 	}
-	RunHTTPServerOnAddr(addr, wrapper)
+	runHTTPServerOnAddr(addr, wrapper)
 }
 
-func RunHTTPServerOnAddr(addr string, wrapper func(router *gin.Engine)) {
+func runHTTPServerOnAddr(addr string, wrapper func(router *gin.Engine)) {
 	//	開啟一個 gin 的 router (和以前我使用的 gin.Default()意思一樣)
 	apiRouter := gin.New()
 	setMiddlewares(apiRouter)
@@ -29,6 +31,7 @@ func RunHTTPServerOnAddr(addr string, wrapper func(router *gin.Engine)) {
 }
 
 func setMiddlewares(router *gin.Engine) {
+	router.Use(middleware.StructuredLog(logrus.NewEntry(logrus.StandardLogger())))
 	router.Use(gin.Recovery())
 	router.Use(otelgin.Middleware("default_server"))
 }
