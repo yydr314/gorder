@@ -7,9 +7,10 @@ import (
 	"fmt"
 	"github.com/lingjun0314/goder/common/broker"
 	"github.com/lingjun0314/goder/common/decorator"
-	"github.com/lingjun0314/goder/common/genproto/orderpb"
 	"github.com/lingjun0314/goder/order/app/query"
+	"github.com/lingjun0314/goder/order/convertor"
 	domain "github.com/lingjun0314/goder/order/domain/order"
+	"github.com/lingjun0314/goder/order/entity"
 	"github.com/rabbitmq/amqp091-go"
 	"github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel"
@@ -17,7 +18,7 @@ import (
 
 type CreateOrder struct {
 	CustomerID string
-	Items      []*orderpb.ItemWithQuantity
+	Items      []*entity.ItemWithQuantity
 }
 
 type CreateOrderResult struct {
@@ -104,20 +105,20 @@ func (c createOrderHandler) Handle(ctx context.Context, cmd CreateOrder) (*Creat
 }
 
 // 確認是否有庫存
-func (c createOrderHandler) validate(ctx context.Context, items []*orderpb.ItemWithQuantity) ([]*orderpb.Item, error) {
+func (c createOrderHandler) validate(ctx context.Context, items []*entity.ItemWithQuantity) ([]*entity.Item, error) {
 	if len(items) == 0 {
 		return nil, errors.New("must have at least one item")
 	}
 	items = packItems(items)
-	resp, err := c.stockGRPC.CheckIfItemsInStock(ctx, items)
+	resp, err := c.stockGRPC.CheckIfItemsInStock(ctx, convertor.NewItemWihhQuantityConvertor().EntitiesToProtos(items))
 	if err != nil {
 		return nil, err
 	}
-	return resp.Items, nil
+	return convertor.NewItemConvertor().ProtosToEntities(resp.Items), nil
 }
 
 // 如果請求的 items 有重複，那麼就要利用這個函式將數量合在一起
-func packItems(items []*orderpb.ItemWithQuantity) []*orderpb.ItemWithQuantity {
+func packItems(items []*entity.ItemWithQuantity) []*entity.ItemWithQuantity {
 	merged := make(map[string]int32)
 
 	//	綜合數量
@@ -125,10 +126,10 @@ func packItems(items []*orderpb.ItemWithQuantity) []*orderpb.ItemWithQuantity {
 		merged[items.ID] += items.Quantity
 	}
 
-	var res []*orderpb.ItemWithQuantity
+	var res []*entity.ItemWithQuantity
 	// 回傳結果
 	for id, quantity := range merged {
-		res = append(res, &orderpb.ItemWithQuantity{
+		res = append(res, &entity.ItemWithQuantity{
 			ID:       id,
 			Quantity: quantity,
 		})

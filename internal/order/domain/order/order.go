@@ -3,19 +3,20 @@ package domain
 import (
 	"errors"
 	"fmt"
-	"github.com/lingjun0314/goder/common/genproto/orderpb"
+	"github.com/lingjun0314/goder/order/entity"
 	"github.com/stripe/stripe-go/v80"
 )
 
+// Aggregate: 在 DDD 的概念中需要組裝整個結構的業務對象，所以結構可以在這裡寫
 type Order struct {
 	ID          string
 	CustomerID  string
 	Status      string
 	PaymentLink string
-	Items       []*orderpb.Item
+	Items       []*entity.Item
 }
 
-func NewOrder(id, customerID, status, paymentLink string, items []*orderpb.Item) (*Order, error) {
+func NewOrder(id, customerID, status, paymentLink string, items []*entity.Item) (*Order, error) {
 	if id == "" {
 		return nil, errors.New("empty id")
 	}
@@ -36,16 +37,6 @@ func NewOrder(id, customerID, status, paymentLink string, items []*orderpb.Item)
 		PaymentLink: paymentLink,
 		Items:       items,
 	}, nil
-}
-
-func (o *Order) ToProto() *orderpb.Order {
-	return &orderpb.Order{
-		ID:          o.ID,
-		CustomerID:  o.CustomerID,
-		Status:      o.Status,
-		PaymentLink: o.PaymentLink,
-		Items:       o.Items,
-	}
 }
 
 func (o *Order) IsPaid() error {

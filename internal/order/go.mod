@@ -10,11 +10,14 @@ require (
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/stripe/stripe-go/v80 v80.2.1
+	go.opentelemetry.io/otel v1.33.0
 )
 
 require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/fatih/color v1.14.1 // indirect
+	github.com/go-logr/logr v1.4.2 // indirect
+	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/hashicorp/consul/api v1.28.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -29,6 +32,14 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2 // indirect
+	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.58.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
+	go.opentelemetry.io/contrib/propagators/b3 v1.33.0 // indirect
+	go.opentelemetry.io/otel/exporters/jaeger v1.17.0 // indirect
+	go.opentelemetry.io/otel/metric v1.33.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.33.0 // indirect
+	go.opentelemetry.io/otel/trace v1.33.0 // indirect
 	golang.org/x/term v0.27.0 // indirect
 )
 
