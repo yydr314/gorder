@@ -32,6 +32,12 @@ func (H HTTPServer) PostCustomerCostumerIDOrders(c *gin.Context, costumerID stri
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
+
+	if costumerID != req.CustomerID {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "costumerID not match"})
+		return
+	}
+
 	r, err := H.app.Commands.CreateOrder.Handle(ctx, command.CreateOrder{
 		CustomerID: req.CustomerID,
 		Items:      convertor.NewItemWihhQuantityConvertor().ClientsToEntities(req.Items),
