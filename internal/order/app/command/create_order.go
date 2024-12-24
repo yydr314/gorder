@@ -122,8 +122,8 @@ func packItems(items []*entity.ItemWithQuantity) []*entity.ItemWithQuantity {
 	merged := make(map[string]int32)
 
 	//	綜合數量
-	for _, items := range items {
-		merged[items.ID] += items.Quantity
+	for _, item := range items {
+		merged[item.ID] += item.Quantity
 	}
 
 	var res []*entity.ItemWithQuantity
