@@ -6,11 +6,13 @@ import (
 	"github.com/rabbitmq/amqp091-go"
 	"github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel"
+	"time"
 )
 
 const (
-	DLX = "dlx"
-	DLQ = "dlq"
+	DLX                = "dlx"
+	DLQ                = "dlq"
+	amqpRetryHeaderKey = "x-amqp-retry"
 )
 
 func Connect(user, password, host, port string) (*amqp091.Channel, func() error) {
@@ -57,6 +59,29 @@ func createDLX(ch *amqp091.Channel) error {
 	}
 	_, err = ch.QueueDeclare(DLQ, true, false, false, false, nil)
 	return err
+}
+
+func HandleRetry(ctx context.Context, ch *amqp091.Channel, d *amqp091.Delivery) error {
+	if d.Headers == nil {
+		d.Headers = amqp091.Table{}
+	}
+	retryCount, ok := d.Headers[amqpRetryHeaderKey].(int64)
+	if !ok {
+		retryCount = 0
+	}
+	retryCount++
+	d.Headers[amqpRetryHeaderKey] = retryCount
+	if retryCount >= MaxRetryCount {
+		logrus.Infof("moving message %s to  dlq", d.MessageId)
+		return ch.PublishWithContext(ctx, "", DLQ, false, false, amqp091.Publishing{
+			Headers:      d.Headers,
+			ContentType:  "application/json",
+			Body:         d.Body,
+			DeliveryMode: amqp091.Persistent,
+		})
+	}
+	
+	time.Sleep(time.Second * time.Duration(retryCount))
 }
 
 type rabbitMQHeaderCarrier map[string]interface{}
