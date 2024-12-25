@@ -3,6 +3,7 @@ package broker
 import (
 	"context"
 	"fmt"
+	_ "github.com/lingjun0314/goder/common/config"
 	"github.com/rabbitmq/amqp091-go"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -77,7 +78,7 @@ func HandleRetry(ctx context.Context, ch *amqp091.Channel, d *amqp091.Delivery) 
 	retryCount++
 	d.Headers[amqpRetryHeaderKey] = retryCount
 	if retryCount >= maxRetryCount {
-		logrus.Infof("moving message %s to  dlq", d.MessageId)
+		logrus.Infof("moving message %s to dlq", d.MessageId)
 		return ch.PublishWithContext(ctx, "", DLQ, false, false, amqp091.Publishing{
 			Headers:      d.Headers,
 			ContentType:  "application/json",

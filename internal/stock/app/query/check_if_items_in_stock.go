@@ -34,7 +34,7 @@ func NewCheckIfItemsInStockHandler(
 }
 
 var stub = map[string]string{
-	"1": "price_123sdf45sdfe23twe",
+	"1": "price_1QZurUEsREysJTgcLnc2lCox",
 	"2": "price_4fewf1sd8fdse84sd",
 }
 

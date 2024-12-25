@@ -12,7 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 
-	"github.com/lingjun0314/goder/common/config"
+	_ "github.com/lingjun0314/goder/common/config"
 	"github.com/lingjun0314/goder/common/genproto/orderpb"
 	"github.com/lingjun0314/goder/common/server"
 	"github.com/lingjun0314/goder/order/ports"
@@ -22,9 +22,6 @@ import (
 
 func init() {
 	logging.Init()
-	if err := config.NewViperConfig(); err != nil {
-		logrus.Fatal(err)
-	}
 }
 
 func main() {

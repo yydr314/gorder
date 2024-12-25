@@ -32,5 +32,15 @@ rabbitmq:
 consul:
   addr: "localhost:8500"
 
+mongo:
+  user: root
+  password: password
+  host: localhost
+  port: 27017
+
+  databases:
+    db-name: "order"
+    coll-name: "order"
+
 stripe-key: "${STRIPE_KEY}"
 endpoint-stripe-secret: "${ENDPOINT_STRIPE_SECRET}"

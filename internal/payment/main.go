@@ -3,7 +3,8 @@ package main
 import (
 	"context"
 	"github.com/lingjun0314/goder/common/broker"
-	"github.com/lingjun0314/goder/common/config"
+	_ "github.com/lingjun0314/goder/common/config"
+	"github.com/lingjun0314/goder/common/logging"
 	"github.com/lingjun0314/goder/common/server"
 	"github.com/lingjun0314/goder/common/tracing"
 	"github.com/lingjun0314/goder/payment/infrastructure/consumer"
@@ -13,9 +14,7 @@ import (
 )
 
 func init() {
-	if err := config.NewViperConfig(); err != nil {
-		logrus.Fatal(err)
-	}
+	logging.Init()
 }
 
 // panic 和 Fatal 的區別： panic 還會不斷冒泡回去 main 函式，然後執行完所有的 defer 函式

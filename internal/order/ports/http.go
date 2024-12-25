@@ -1,7 +1,6 @@
 package ports
 
 import (
-	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lingjun0314/goder/common"
@@ -35,11 +34,6 @@ func (H HTTPServer) PostCustomerCustomerIdOrders(c *gin.Context, customerId stri
 	}()
 
 	if err = c.ShouldBindJSON(&req); err != nil {
-		return
-	}
-
-	if customerId != req.CustomerId {
-		err = errors.New("costumerID not match")
 		return
 	}
 

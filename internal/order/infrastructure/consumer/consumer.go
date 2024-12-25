@@ -63,14 +63,14 @@ func (c *Consumer) handleMessage(ch *amqp091.Channel, msg amqp091.Delivery, q am
 
 	o := &domain.Order{}
 
-	if err := json.Unmarshal(msg.Body, o); err != nil {
+	if err = json.Unmarshal(msg.Body, o); err != nil {
 		logrus.Infof("error unmarshal msg.body into domain.order, err = %v", err)
 		return
 	}
 	_, err = c.app.Commands.UpdateOrder.Handle(ctx, command.UpdateOrder{
 		Order: o,
 		UpdateFn: func(ctx context.Context, order *domain.Order) (*domain.Order, error) {
-			if err := order.IsPaid(); err != nil {
+			if err = order.IsPaid(); err != nil {
 				return nil, err
 			}
 			return order, nil
