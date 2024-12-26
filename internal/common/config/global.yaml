@@ -33,9 +33,9 @@ consul:
   addr: "localhost:8500"
 
 mongo:
-  user: root
-  password: password
-  host: localhost
+  user: "root"
+  password: "password"
+  host: 127.0.0.1
   port: 27017
 
   databases:
