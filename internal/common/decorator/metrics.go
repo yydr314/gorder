@@ -36,3 +36,26 @@ func (q queryMetricsDecorator[C, R]) Handle(ctx context.Context, cmd C) (result 
 	//	調用傳過來的 handler 的 Handle 方法
 	return q.base.Handle(ctx, cmd)
 }
+
+type commandMetricsDecorator[C, R any] struct {
+	base   CommandHandler[C, R]
+	client MetricsClient
+}
+
+func (q commandMetricsDecorator[C, R]) Handle(ctx context.Context, cmd C) (result R, err error) {
+	start := time.Now()
+	actionName := strings.ToLower(generateActionName(cmd))
+	//	用 defer 就可以拿到 return 回來的結果
+	defer func() {
+		end := time.Since(start)
+		q.client.Inc(fmt.Sprintf("command.%s.duration", actionName), int(end.Seconds()))
+		if err == nil {
+			q.client.Inc(fmt.Sprintf("command.%s.success", actionName), 1)
+		} else {
+			q.client.Inc(fmt.Sprintf("command.%s.failure", actionName), 1)
+		}
+	}()
+
+	//	調用傳過來的 handler 的 Handle 方法
+	return q.base.Handle(ctx, cmd)
+}

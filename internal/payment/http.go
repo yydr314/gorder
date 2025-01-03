@@ -28,6 +28,7 @@ func NewPaymentHandler(ch *amqp091.Channel) *PaymentHandler {
 	}
 }
 
+// stripe listen --forward-to localhost:8284/api/webhook
 func (h *PaymentHandler) RegisterRoutes(c *gin.Engine) {
 	c.POST("/api/webhook", h.HandleWebhook)
 }
@@ -42,6 +43,8 @@ func (h *PaymentHandler) HandleWebhook(c *gin.Context) {
 		c.JSON(http.StatusServiceUnavailable, err.Error())
 		return
 	}
+
+	logrus.Infof("endpoint: %s", viper.GetString("endpoint-stripe-secret"))
 
 	// event 這裡要改，也是可以從 stripe doc 找到
 	event, err := webhook.ConstructEvent(payload, c.Request.Header.Get("Stripe-Signature"),

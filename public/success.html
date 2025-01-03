@@ -119,17 +119,17 @@
         const data = await res.json()
         console.log("data = ", data)
 
-        if (data.data.Order.Status === 'waiting_for_payment') {
+        if (data.data.status === 'waiting_for_payment') {
             order.status = '等待支付...'
             document.getElementById('orderStatus').innerText = order.status
             document.querySelector('.after-payment-popup').style.display = 'block'
-            document.getElementById('payment-link').href = data.data.Order.PaymentLink
+            document.getElementById('payment-link').href = data.data.payment_link
         }
-        if (data.data.Order.Status === 'paid') {
+        if (data.data.status === 'paid') {
             order.status = '已支付成功，請等待...'
             document.getElementById('orderStatus').innerText = order.status
             setTimeout(getOrder ,5000)
-        } else if (data.data.Order.Status === 'ready') {
+        } else if (data.data.status === 'ready') {
             order.status = '已完成'
             document.querySelector('.after-payment-popup').style.display = 'none'
             document.getElementById('orderID').innerText = orderID

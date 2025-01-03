@@ -43,4 +43,4 @@ mongo:
     coll-name: "order"
 
 stripe-key: "${STRIPE_KEY}"
-endpoint-stripe-secret: "${ENDPOINT_STRIPE_SECRET}"
+endpoint-stripe-secret: "whsec_8b7b16bc9ba15954505180889f12f4ed010c464ef41210577f05a1ea863fef02"
