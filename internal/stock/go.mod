@@ -4,7 +4,10 @@ go 1.22.2
 
 replace github.com/lingjun0314/goder/common => ../common
 
-require github.com/lingjun0314/goder/common v0.0.0-00010101000000-000000000000
+require (
+	github.com/lingjun0314/goder/common v0.0.0-00010101000000-000000000000
+	github.com/stripe/stripe-go/v80 v80.2.1
+)
 
 require (
 	github.com/armon/go-metrics v0.4.1 // indirect
