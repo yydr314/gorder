@@ -33,12 +33,16 @@ func NewCheckIfItemsInStockHandler(
 		panic("nil stripeAPI")
 	}
 	return decorator.ApplyQueryDecorators(
-		checkIdItemsInStockHandler{stockRepo: stockRepo},
+		checkIdItemsInStockHandler{
+			stockRepo: stockRepo,
+			stripeAPI: stripeAPI,
+		},
 		logger,
 		metricClient,
 	)
 }
 
+// Deprecated
 var stub = map[string]string{
 	"1": "price_1QZurUEsREysJTgcLnc2lCox",
 	"2": "price_4fewf1sd8fdse84sd",

@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 1m
+
+scrape_configs:
+  - job_name: 'server-metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:9090'] # 可以透過 host.docker.internal 來訪問這台電腦的 localhost，不需要配置 docker network

@@ -6,7 +6,7 @@ import (
 	"github.com/lingjun0314/goder/common/logging"
 	"github.com/lingjun0314/goder/common/tracing"
 
-	"github.com/lingjun0314/goder/common/config"
+	_ "github.com/lingjun0314/goder/common/config"
 	"github.com/lingjun0314/goder/common/genproto/stockpb"
 	"github.com/lingjun0314/goder/common/server"
 	"github.com/lingjun0314/goder/stock/ports"
@@ -18,9 +18,6 @@ import (
 
 func init() {
 	logging.Init()
-	if err := config.NewViperConfig(); err != nil {
-		logrus.Fatal(err)
-	}
 }
 
 func main() {

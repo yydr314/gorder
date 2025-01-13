@@ -33,7 +33,8 @@ func (q queryLoggingDecorator[C, R]) Handle(ctx context.Context, cmd C) (result 
 	}()
 
 	//	調用傳過來的 handler 的 Handle 方法
-	return q.base.Handle(ctx, cmd)
+	result, err = q.base.Handle(ctx, cmd)
+	return result, err
 }
 
 type commandLoggingDecorator[C, R any] struct {
@@ -59,7 +60,8 @@ func (q commandLoggingDecorator[C, R]) Handle(ctx context.Context, cmd C) (resul
 	}()
 
 	//	調用傳過來的 handler 的 Handle 方法
-	return q.base.Handle(ctx, cmd)
+	result, err = q.base.Handle(ctx, cmd)
+	return result, err
 }
 
 func generateActionName(cmd any) string {

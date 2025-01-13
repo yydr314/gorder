@@ -65,7 +65,7 @@ func (c *Consumer) handleMessage(ch *amqp091.Channel, msg amqp091.Delivery, q am
 		return
 	}
 	if _, err = c.app.Commands.CreatePayment.Handle(ctx, command.CreatePayment{Order: o}); err != nil {
-		logrus.Infof("failed to crate payment, err=%v", err)
+		logrus.Infof("failed to create payment, err=%v", err)
 		if err = broker.HandleRetry(ctx, ch, &msg); err != nil {
 			logrus.Warnf("error handling retry, messageID=%s, err=%v", msg.MessageId, err)
 		}
