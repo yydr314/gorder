@@ -16,7 +16,7 @@ func NewStripeAPI() *StripeAPI {
 	return &StripeAPI{ApiKey: viper.GetString("stripe-key")}
 }
 
-func (s *StripeAPI) GetPriceByProductID(ctx context.Context, pid string) (string, error) {
+func (s *StripeAPI) GetPriceByProductID(_ context.Context, pid string) (string, error) {
 	stripe.Key = s.ApiKey
 	params := &stripe.ProductParams{}
 	result, err := product.Get(pid, params)

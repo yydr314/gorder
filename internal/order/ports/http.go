@@ -1,6 +1,7 @@
 package ports
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lingjun0314/goder/common"
@@ -36,6 +37,9 @@ func (H HTTPServer) PostCustomerCustomerIdOrders(c *gin.Context, customerId stri
 	if err = c.ShouldBindJSON(&req); err != nil {
 		return
 	}
+	if err = H.validate(req); err != nil {
+		return
+	}
 
 	r, err := H.app.Commands.CreateOrder.Handle(c.Request.Context(), command.CreateOrder{
 		CustomerID: req.CustomerId,
@@ -69,4 +73,13 @@ func (H HTTPServer) GetCustomerCustomerIdOrdersOrderId(c *gin.Context, customerI
 		return
 	}
 	res = convertor.NewOrderConvertor().EntityToClient(o)
+}
+
+func (H HTTPServer) validate(req client.CreateOrderRequest) error {
+	for _, item := range req.Items {
+		if item.Quantity < 0 {
+			return errors.New("quantity must be positive")
+		}
+	}
+	return nil
 }

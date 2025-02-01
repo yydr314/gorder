@@ -6,6 +6,7 @@ import (
 	"github.com/lingjun0314/goder/common/tracing"
 	"github.com/lingjun0314/goder/stock/app"
 	"github.com/lingjun0314/goder/stock/app/query"
+	"github.com/lingjun0314/goder/stock/convertor"
 )
 
 // GRPCServer 注入 app
@@ -27,19 +28,19 @@ func (G GRPCServer) GetItems(ctx context.Context, request *stockpb.GetItemsReque
 	if err != nil {
 		return nil, err
 	}
-	return &stockpb.GetItemsResponse{Items: items}, nil
+	return &stockpb.GetItemsResponse{Items: convertor.NewItemConvertor().EntitiesToProtos(items)}, nil
 }
 
 func (G GRPCServer) CheckIfItemsInStock(ctx context.Context, request *stockpb.CheckIfItemsInStockRequest) (*stockpb.CheckIfItemsInStockResponse, error) {
 	_, span := tracing.Start(ctx, "CheckIfItemsInStock")
 	defer span.End()
 
-	items, err := G.app.Queries.CheckIfItemsInStock.Handle(ctx, query.CheckIfItemsInStock{Items: request.Items})
+	items, err := G.app.Queries.CheckIfItemsInStock.Handle(ctx, query.CheckIfItemsInStock{Items: convertor.NewItemWihhQuantityConvertor().ProtosToEntities(request.Items)})
 	if err != nil {
 		return nil, err
 	}
 	return &stockpb.CheckIfItemsInStockResponse{
 		InStock: 1,
-		Items:   items,
+		Items:   convertor.NewItemConvertor().EntitiesToProtos(items),
 	}, nil
 }

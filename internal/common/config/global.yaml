@@ -42,5 +42,12 @@ mongo:
     db-name: "order"
     coll-name: "order"
 
+mysql:
+  user: root
+  password: root
+  host: localhost
+  port: 3306
+  dbname: "gorder"
+
 stripe-key: "${STRIPE_KEY}"
 endpoint-stripe-secret: "whsec_8b7b16bc9ba15954505180889f12f4ed010c464ef41210577f05a1ea863fef02"
