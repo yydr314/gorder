@@ -35,7 +35,7 @@ func RegisterToConsul(ctx context.Context, serviceName string) (func() error, er
 		"addr":        grpcAddr,
 	}).Info("registered to consul")
 	return func() error {
-		return registry.Deregister(ctx, instanceID, serviceName)
+		return registry.Deregister(ctx, instanceID, serviceName, grpcAddr)
 	}, nil
 }
 

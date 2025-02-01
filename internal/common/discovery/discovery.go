@@ -15,6 +15,6 @@ type Registry interface {
 }
 
 func GenerateInstanceID(serviceName string) string {
-	x := rand.New(rand.NewSource((time.Now().UnixNano()))).Int()
+	x := rand.New(rand.NewSource(time.Now().UnixNano())).Int()
 	return fmt.Sprintf("%s-%d", serviceName, x)
 }

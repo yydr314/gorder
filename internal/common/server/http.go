@@ -18,7 +18,6 @@ func RunHTTPServer(serviceName string, wrapper func(router *gin.Engine)) {
 }
 
 func runHTTPServerOnAddr(addr string, wrapper func(router *gin.Engine)) {
-	//	開啟一個 gin 的 router (和以前我使用的 gin.Default()意思一樣)
 	apiRouter := gin.New()
 	setMiddlewares(apiRouter)
 	//	透過 wrapper 函式來對這個 router 進行一些配置，這樣就不需要每個地方都寫重複的代碼

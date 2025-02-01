@@ -23,10 +23,10 @@ func RunGRPCServer(serviceName string, registerServer func(server *grpc.Server))
 		//	TODO: Warning log
 		addr = viper.GetString("fallback-grpc-addr")
 	}
-	RunGRPCServerOnAddr(addr, registerServer)
+	runGRPCServerOnAddr(addr, registerServer)
 }
 
-func RunGRPCServerOnAddr(addr string, registerServer func(server *grpc.Server)) {
+func runGRPCServerOnAddr(addr string, registerServer func(server *grpc.Server)) {
 	logrusEntry := logrus.NewEntry(logrus.StandardLogger())
 	//	配置 gRPC 服務，這些都是固定寫法
 	grpcServer := grpc.NewServer(

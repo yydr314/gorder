@@ -48,6 +48,7 @@ func (G GRPCServer) GetOrder(ctx context.Context, request *orderpb.GetOrderReque
 
 	return convertor.NewOrderConvertor().EntityToProto(o), nil
 }
+
 func (G GRPCServer) UpdateOrder(ctx context.Context, request *orderpb.Order) (_ *emptypb.Empty, err error) {
 	logrus.Infof("order_grpc||request_in||request=%+v", request)
 	order, err := domain.NewOrder(
