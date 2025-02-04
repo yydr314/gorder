@@ -52,7 +52,7 @@ func (H HTTPServer) PostCustomerCustomerIdOrders(c *gin.Context, customerId stri
 	res = dto.CreateOrderResponse{
 		CustomerID:  req.CustomerId,
 		OrderID:     r.OrderID,
-		RedirectURL: fmt.Sprintf("http://localhost:8282/sucess?customerID=%s&orderID=%s", req.CustomerId, r.OrderID),
+		RedirectURL: fmt.Sprintf("http://localhost:8282/success?customerID=%s&orderID=%s", req.CustomerId, r.OrderID),
 	}
 }
 
